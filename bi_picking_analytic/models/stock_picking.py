@@ -30,7 +30,7 @@ class StockPicking(models.Model):
 						'amount': line.sale_line_id.price_unit,
 		                'product_id': line.sale_line_id.product_id.id,
 						'product_uom_id': line.sale_line_id.product_uom.id,
-						'date': line.date_deadline or self.sheduled_date,
+						'date': line.date_deadline or self.scheduled_date,
 						'account_id': line.analytic_account_id.id,
 						'unit_amount': line.quantity_done,
 						'general_account_id': self.partner_id.property_account_receivable_id.id,
@@ -50,7 +50,7 @@ class StockPicking(models.Model):
 
                     purchase_analytic_dict.update({
 						'name': line.purchase_line_id.product_id.name or line.product_id.name,
-						'date': line.date_deadline or self.sheduled_date,
+						'date': line.date_deadline or self.scheduled_date,
 						'account_id': line.analytic_account_id.id,
 						'unit_amount': line.quantity_done,
 						'amount': (line.product_id.standard_price *line.quantity_done) * -1,
