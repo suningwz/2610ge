@@ -6,6 +6,8 @@ from dateutil.relativedelta import relativedelta
 from odoo.tools.float_utils import float_is_zero, float_compare
 from datetime import datetime
 from collections import namedtuple, OrderedDict, defaultdict
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class StockPicking(models.Model):
@@ -36,16 +38,17 @@ class StockPicking(models.Model):
                         'tag_ids':[(6,0,tag_ids)],
                         'group_id': line.analytic_account_id.group_id and line.analytic_account_id.group_id.id
 			        })
+                    _logger.warning(f"sale: {sale_analytic_dict['name']}")
                     self.env['account.analytic.line'].create(sale_analytic_dict)
 
         if self.purchase_id :
             for line in self.move_ids_without_package:
                 if line.analytic_account_id:
-                   tag_ids = []    
-                   for tag_id in line.tag_ids:
+                    tag_ids = []    
+                    for tag_id in line.tag_ids:
                         tag_ids.append(tag_id.id)  
 
-                   purchase_analytic_dict.update({
+                    purchase_analytic_dict.update({
 						'name': line.purchase_line_id.product_id.name,
 						'date': line.date_deadline,
 						'account_id': line.analytic_account_id.id,
@@ -56,19 +59,20 @@ class StockPicking(models.Model):
 						'general_account_id': self.partner_id.property_account_payable_id.id,
 						'ref': ref,
                         'tag_ids':[(6,0,tag_ids)]
-					})
-
-                   self.env['account.analytic.line'].create(purchase_analytic_dict)
+                    })
+                    
+                    _logger.warning(f"purchase: {purchase_analytic_dict['name']}")
+                    self.env['account.analytic.line'].create(purchase_analytic_dict)
 
 
         if not self.purchase_id and not self.sale_id:
             for line in self.move_ids_without_package:
                 if line.analytic_account_id:
-                   tag_ids =[]
-                   for tag_id in line.tag_ids:
+                    tag_ids =[]
+                    for tag_id in line.tag_ids:
                         tag_ids.append(tag_id.id)  
 
-                   purchase_analytic_dict.update({
+                    purchase_analytic_dict.update({
                     
 						'name': line.product_id.name,
 						'date': datetime.now(),
@@ -81,10 +85,11 @@ class StockPicking(models.Model):
 						'ref': ref,
                         'tag_ids':[(6,0,tag_ids)] 
 					})
-                   if self.picking_type_id.code == 'incoming':
-                       purchase_analytic_dict['amount']= (line.product_id.standard_price *line.quantity_done) * -1 
-                             
-                   self.env['account.analytic.line'].create(purchase_analytic_dict)
+                    if self.picking_type_id.code == 'incoming':
+                        purchase_analytic_dict['amount']= (line.product_id.standard_price *line.quantity_done) * -1 
+                   
+                    _logger.warning(f"purchase?: {purchase_analytic_dict['name']}")          
+                    self.env['account.analytic.line'].create(purchase_analytic_dict)
         return super(StockPicking, self).button_validate()
 
 
