@@ -26,7 +26,7 @@ class StockPicking(models.Model):
                     for tag_id in line.tag_ids:
                         tag_ids.append(tag_id.id)  
                     sale_analytic_dict.update({
-						'name': line.sale_line_id.product_id.name,
+						'name': line.sale_line_id.product_id.name or line.product_id.name,
 						'amount': line.sale_line_id.price_unit,
 		                'product_id': line.sale_line_id.product_id.id,
 						'product_uom_id': line.sale_line_id.product_uom.id,
@@ -49,7 +49,7 @@ class StockPicking(models.Model):
                         tag_ids.append(tag_id.id)  
 
                     purchase_analytic_dict.update({
-						'name': line.purchase_line_id.product_id.name,
+						'name': line.purchase_line_id.product_id.name or line.product_id.name,
 						'date': line.date_deadline,
 						'account_id': line.analytic_account_id.id,
 						'unit_amount': line.quantity_done,
@@ -61,7 +61,6 @@ class StockPicking(models.Model):
                         'tag_ids':[(6,0,tag_ids)]
                     })
                     
-                    _logger.warning(f"purchase: {purchase_analytic_dict['name']}")
                     self.env['account.analytic.line'].create(purchase_analytic_dict)
 
 
@@ -88,7 +87,6 @@ class StockPicking(models.Model):
                     if self.picking_type_id.code == 'incoming':
                         purchase_analytic_dict['amount']= (line.product_id.standard_price *line.quantity_done) * -1 
                    
-                    _logger.warning(f"purchase?: {purchase_analytic_dict['name']}")          
                     self.env['account.analytic.line'].create(purchase_analytic_dict)
         return super(StockPicking, self).button_validate()
 
