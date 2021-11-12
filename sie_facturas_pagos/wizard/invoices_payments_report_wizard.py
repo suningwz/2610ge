@@ -114,7 +114,7 @@ class InvoicePaymentWizard(models.TransientModel):
                 invoice_payments_widget = json.loads(invoice.invoice_payments_widget)
                 payments = invoice_payments_widget["content"] if invoice_payments_widget else {}
                 filtered_payments = []
-                #_logger.warning("-.-.-.-. Pasa obtención de pagos por widget .-.-.-.-")
+                _logger.warning(invoice_payments_widget)
                 for item in payments:
                     # if datetime.strptime(item['date'], '%Y-%m-%d').date() > self.end_date:
                     #     continue
