@@ -65,7 +65,9 @@ class InvoicePaymentWizard(models.TransientModel):
                 invoice_domain.append(("move_type", "=", "out_invoice"))
             else:
                 invoice_domain.append(("move_type", "=", "in_invoice"))
+            _logger.warning("-.-.-.-. Pasa dominios de facturas .-.-.-.-")
             invoices = self.env["account.move"].search(invoice_domain)
+            _logger.warning("-.-.-.-. Pasa búsqueda de facturas .-.-.-.-")
             if self.analytic_account_ids:
                 invoices = invoices.filtered(lambda inv: inv.invoice_line_ids[0].analytic_account_id.id in self.analytic_account_ids.ids)
             if self.pending_payment_filter:
@@ -75,7 +77,8 @@ class InvoicePaymentWizard(models.TransientModel):
             if self.payment_status:
                 invoices = invoices.filtered(lambda inv: inv.payment_state == self.payment_status)
             if journals:
-                invoices = invoices.filtered(lambda inv: inv.journal_id.id in journals)
+                invoices = invoices.filtered(lambda inv: inv.journal_id.id in journals)            
+            _logger.warning("-.-.-.-. Pasa filtros de facturas .-.-.-.-")
             partner_invoices = []
             saldo = 0.00
             currencies = {}
@@ -102,6 +105,7 @@ class InvoicePaymentWizard(models.TransientModel):
                     "invoice_currency": invoice.currency_id.name,
                     "invoice_amount": invoice.amount_total,
                 }
+                _logger.warning("-.-.-.-. Pasa invoice_info .-.-.-.-")
 
                 reverse_cons = -1
                 if not invoice.currency_id.name in currencies.keys():
@@ -110,6 +114,7 @@ class InvoicePaymentWizard(models.TransientModel):
                 invoice_payments_widget = json.loads(invoice.invoice_payments_widget)
                 payments = invoice_payments_widget["content"] if invoice_payments_widget else {}
                 filtered_payments = []
+                _logger.warning("-.-.-.-. Pasa obtención de pagos por widget .-.-.-.-")
                 for item in payments:
                     # if datetime.strptime(item['date'], '%Y-%m-%d').date() > self.end_date:
                     #     continue
@@ -121,6 +126,7 @@ class InvoicePaymentWizard(models.TransientModel):
                     item['amount'] = item['amount'] * reverse_cons
                     saldo += item['amount']
                     filtered_payments.append(item)
+                    _logger.warning("-.-.-.-. Pasa filtered_payments .-.-.-.-")
                 invoice_info["payments"] = filtered_payments
                 invoice_info["total"] = saldo
                 partner_invoices.append(invoice_info)
