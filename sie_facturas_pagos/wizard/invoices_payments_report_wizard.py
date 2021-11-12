@@ -120,10 +120,10 @@ class InvoicePaymentWizard(models.TransientModel):
                     #     continue
                     _logger.warning(f"-.-.-.-. Factura: {invoice.name} ID: {invoice.id} .-.-.-.-")
                     item["account_payment_id"] = self.env["account.payment"].browse(item["account_payment_id"]) if item["account_payment_id"] else ""
-                    item["payment_id"] = self.env["account.payment"].browse(item["payment_id"]) if item["payment_id"] else ""
+                    #item["payment_id"] = self.env["account.payment"].browse(item["payment_id"]) if item["payment_id"] else ""
                     item["analytic"] = item["account_payment_id"].analytic_account_id.code if item["account_payment_id"] and item["account_payment_id"].analytic_account_id else ""
                     if not item["analytic"]:
-                        item["analytic"] = item["payment_id"].analytic_account_id.code if item["payment_id"] and item["payment_id"].analytic_account_id else invoice_info["invoice_analytic"]
+                        item["analytic"] = invoice_info["invoice_analytic"]
                     item['amount'] = item['amount'] * reverse_cons
                     saldo += item['amount']
                     filtered_payments.append(item)
