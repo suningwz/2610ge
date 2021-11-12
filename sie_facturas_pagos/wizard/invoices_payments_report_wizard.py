@@ -119,7 +119,7 @@ class InvoicePaymentWizard(models.TransientModel):
                     # if datetime.strptime(item['date'], '%Y-%m-%d').date() > self.end_date:
                     #     continue
                     item["account_payment_id"] = self.env["account.payment"].browse(item["account_payment_id"]) if item["account_payment_id"] else ""
-                    item["payment_id"] = self.env["account.payment"].browse(item["payment_id"]) if item["account_payment_id"] else ""
+                    item["payment_id"] = self.env["account.payment"].browse(item["payment_id"]) if item["payment_id"] else ""
                     item["analytic"] = item["account_payment_id"].analytic_account_id.code if item["account_payment_id"] else ""
                     if not item["analytic"]:
                         item["analytic"] = item["payment_id"].analytic_account_id.code if item["payment_id"] else invoice_info["invoice_analytic"]
