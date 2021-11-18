@@ -1,78 +1,107 @@
 <odoo>
-  <record id="maintenance_rims_form" model="ir.ui.view">
-      <field name="name">maintenance.rims.form</field>
-      <field name="model">maintenance.rims</field>    
-      <field name="arch" type="xml">        
-      <form string="Llantas">
-        <sheet>
-          <group>
-            <div class="oe_title">
-              <label for="equipment_id" class="oe_edit_only"/>
-              <h1><field name="equipment_id" string="Equipo"/></h1>
-            </div>
-            <group>
-              <field name="name"/>
-              <field name="date"/>
-              <field name="marca"/>
-              <field name="modelo"/>
-              <field name="no_serie"/>
-              <field name="medida"/>
-            </group>
-            <group>
-              <field name="current_state"/>
-              <field name="tipo_renovado"/>
-              <field name="mil_orig"/>
-              <field name="mil_act"/>
-              <field name="presion"/>
-              <field name="user_id" readonly="1"/>
-              <field name="company_id"/>
-            </group>
-          </group>
-                    
-        </sheet>
-        </form>
-      </field>    
-  </record>
+	<record id="maintenance_rims_form" model="ir.ui.view">
+		<field name="name">maintenance.rims.form</field>
+		<field name="model">maintenance.rims</field>    
+		<field name="arch" type="xml">        
+			<form string="Llantas">
+				<sheet>
+					<group>
+						<div class="oe_title">
+							<label for="equipment_id" class="oe_edit_only"/>
+							<h1><field name="equipment_id" string="Equipo"/></h1>
+						</div>
+						<group>
+							<field name="name"/>
+							<field name="date"/>
+							<field name="revision_frequency"/>
+							<field name="marca"/>
+							<field name="modelo"/>
+							<field name="no_serie"/>
+							<field name="medida"/>
+						</group>
+						<group>
+							<field name="current_state"/>
+							<field name="tipo_renovado"/>
+							<field name="mil_orig"/>
+							<field name="mil_act"/>
+							<field name="presion"/>
+							<field name="position"/>
+							<field name="user_id" readonly="1"/>
+							<field name="company_id"/>
+						</group>
+					</group>							
+				</sheet>
+			</form>
+		</field>    
+	</record>
 
-  <record id="maintenance_rims_tree" model="ir.ui.view">
-      <field name="name">maintenance.rims.tree</field>
-      <field name="model">maintenance.rims</field>    
-      <field name="arch" type="xml">        
-       <tree string="Llantas">
-            <field name="equipment_id" readonly="1" optional="hide"/>
-            <field name="date"/>
-            <field name="marca"/>
-            <field name="modelo"/>
-            <field name="no_serie"/>
-            <field name="medida"/>
-            <field name="current_state"/>
-            <field name="tipo_renovado"/>
-            <field name="mil_orig"/>
-            <field name="mil_act"/>
-            <field name="presion"/>
-            <field name="user_id" readonly="1"/>
-            <field name="company_id" optional="hide"/>
-        </tree>
-      </field>    
+	<record id="maintenance_rims_tree" model="ir.ui.view">
+		<field name="name">maintenance.rims.tree</field>
+		<field name="model">maintenance.rims</field>    
+		<field name="arch" type="xml">        
+			<tree string="Llantas">
+				<field name="equipment_id" readonly="1" optional="hide"/>
+				<field name="date"/>
+				<field name="marca"/>
+				<field name="modelo"/>
+				<field name="no_serie"/>
+				<field name="medida"/>
+				<field name="current_state"/>
+				<field name="tipo_renovado"/>
+				<field name="mil_orig"/>
+				<field name="mil_act"/>
+				<field name="presion"/>
+				<field name="user_id" readonly="1"/>
+				<field name="company_id" optional="hide"/>
+			</tree>
+		</field>    
     </record>
     
-  <record id="hr_equipment_view_form_inherit" model="ir.ui.view">
-    <field name="name">equipment.form.inherit</field>
-    <field name="model">maintenance.equipment</field>
-    <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/> 
-    <field name="arch" type="xml">
-    <xpath expr="//div[@name='button_box']" position="inside">
-      <button 
-              type="object"
-              class="oe_stat_button"
-              context="{'default_company_id': company_id}"
-              icon="fa-life-ring"
-              name="action_view_rims">
-              <field string="Llantas" name="maintenance_rims_count" widget="statinfo"/>
-            </button>
-    </xpath>       
-    </field>
-  </record>
+	<record id="hr_equipment_view_form_inherit" model="ir.ui.view">
+		<field name="name">equipment.form.inherit</field>
+		<field name="model">maintenance.equipment</field>
+		<field name="inherit_id" ref="maintenance.hr_equipment_view_form"/> 
+		<field name="arch" type="xml">
+			<xpath expr="//div[@name='button_box']" position="inside">
+				<button 
+					type="object"
+					class="oe_stat_button"
+					context="{'default_company_id': company_id}"
+					icon="fa-life-ring"
+					name="action_view_rims">
+					<field string="Llantas" name="maintenance_rims_count" widget="statinfo"/>
+				</button>
+			</xpath>       
+			<notebook position="inside">
+				<page string="Datos de Poliza">
+					<group>
+						<group>
+							<field name="aseguradora"/>
+							<field name="no_poliza"/>
+						</group>
+						<group>
+							<field name="periodo"/>
+						</group>
+					</group>
+				</page>
+				<page string="Información del producto">
+					<group>
+						<group>
+							<field name="marca"/>
+							<field name="placas"/>
+							<field name="color"/>
+							<field name="linea_tipo"/>
+						</group>
+						<group>
+							<field name="cilindros"/>
+							<field name="no_eco"/>
+							<field name="no_motor"/>
+						</group>
+					</group>
+				</page>
+			</notebook>
+		</field>
+	</record>
 
 </odoo>
 

@@ -8,6 +8,7 @@ class MaintenenceRims(models.Model):
 
     date = fields.Date('Fecha de Revisión')
     equipment_id = fields.Many2one('maintenance.equipment',string='Equipo')
+    revision_frequency = fields.Date('Frecuencia de Revisión')
     marca = fields.Char('Marca')
     name = fields.Char()
     modelo = fields.Char('Modelo')
@@ -21,6 +22,8 @@ class MaintenenceRims(models.Model):
     user_id = fields.Many2one('res.users', string='Responsable',tracking=True, default=lambda self: self.env.uid)
     current_state = fields.Selection([('n', 'Nueva'),('r', 'Renovada')], string='Estado actual')
     company_id = fields.Many2one('res.company', string='Compañia', default=lambda self: self.env.company)
+    position = fields.Integer(string="Posición")
+
     
 
 class MaintenanceEquipment(models.Model):
@@ -29,6 +32,32 @@ class MaintenanceEquipment(models.Model):
 
     maintenance_rims_count = fields.Integer(compute='_compute_maintenance_rims_count', string="Maintenance Count Rims", store=True)
     maintenance_rims_ids = fields.One2many('maintenance.rims','equipment_id', copy=False)
+    
+    tu_list = [
+        ('tracto', 'Tractocamion'),
+        ('gon2', 'Gondola 2 ejes'),
+        ('gon3', 'Gondola 3 ejes'),
+        ('tan2', 'Tanque 2 ejes'),
+        ('tan3', 'Tanque 3 ejes'),
+        ('lowboy', 'Low boy'),
+        ('volteo', 'Volteo'),
+        ('pipa', 'Pipa'),
+        ('platf', 'Plataforma'),
+        ('dolly2', 'Dolly 2 ejes'),
+    ]
+    tipo_unidad = fields.Selection(tu_list, string='Tipo de unidad')
+
+    aseguradora = fields.Char('Aseguradora')
+    no_poliza = fields.Char('No. Póliza')
+    periodo = fields.Char('Periodo')
+    
+    marca = fields.Char('Marca')
+    placas = fields.Char('Placas')
+    color = fields.Char('Color')
+    linea_tipo = fields.Char('Tipo / Línea')
+    cilindros = fields.Integer('No. Cilindros')
+    no_eco = fields.Char('No. Económico')
+    no_motor = fields.Char('No. Motor')
     
     @api.depends('maintenance_rims_ids')
     def _compute_maintenance_rims_count(self):
