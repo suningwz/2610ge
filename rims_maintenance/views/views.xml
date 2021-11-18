@@ -84,22 +84,22 @@
 						</group>
 					</group>
 				</page>
-				<page string="Información del producto">
-					<group>
-						<group>
-							<field name="marca"/>
-							<field name="placas"/>
-							<field name="color"/>
-							<field name="linea_tipo"/>
-						</group>
-						<group>
-							<field name="cilindros"/>
-							<field name="no_eco"/>
-							<field name="no_motor"/>
-						</group>
-					</group>
-				</page>
 			</notebook>
+			<page name="product_information" position="inside">
+				<group>
+					<group>
+						<field name="marca"/>
+						<field name="placas"/>
+						<field name="color"/>
+						<field name="linea_tipo"/>
+					</group>
+					<group>
+						<field name="cilindros"/>
+						<field name="no_eco"/>
+						<field name="no_motor"/>
+					</group>
+				</group>
+			</page>
 		</field>
 	</record>
 
