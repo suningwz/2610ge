@@ -65,7 +65,7 @@
 	<menuitem
 		id="menu_maintenance_rims"
 		name="Control de Llantas"
-		parent="maintenance.menu_maintenance_teams"
+		parent="maintenance.menu_equipment_form"
 		action="action_maintenance_rims"
 		/>
     
