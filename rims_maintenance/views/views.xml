@@ -41,7 +41,7 @@
 		<field name="arch" type="xml">        
 			<tree string="Llantas">
 				<field name="equipment_id" readonly="1" optional="hide"/>
-				<field name="date"/>
+				<field name="date" widget="remaining_days"/>
 				<field name="marca"/>
 				<field name="modelo"/>
 				<field name="no_serie"/>

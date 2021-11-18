@@ -19,9 +19,9 @@ class MaintenenceRims(models.Model):
     mil_act = fields.Char('Milimetros Act', tracking=True)
     presion = fields.Char('Presion', tracking=True)
     km_acum = fields.Float('Kms Acumulados', tracking=True)
-    user_id = fields.Many2one('res.users', string='Responsable',tracking=True, default=lambda self: self.env.uid, tracking=True)
+    user_id = fields.Many2one('res.users', string='Responsable', default=lambda self: self.env.uid, tracking=True)
     current_state = fields.Selection([('n', 'Nueva'),('r', 'Renovada')], string='Estado actual', tracking=True)
-    company_id = fields.Many2one('res.company', string='Compañia', default=lambda self: self.env.company, tracking=True)
+    company_id = fields.Many2one('res.company', string='Compañia', default=lambda self: self.env.company)
     position = fields.Integer(string="Posición", tracking=True)
 
     
