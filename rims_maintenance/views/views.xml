@@ -47,7 +47,7 @@
 				<field name="no_serie"/>
 				<field name="medida"/>
 				<field name="current_state"/>
-				<field name="tipo_renovado"/>
+				<field name="tipo_renovado" optional="hide"/>
 				<field name="mil_orig"/>
 				<field name="mil_act"/>
 				<field name="presion"/>
