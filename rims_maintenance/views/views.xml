@@ -40,7 +40,7 @@
 		<field name="model">maintenance.rims</field>    
 		<field name="arch" type="xml">        
 			<tree string="Llantas">
-				<field name="equipment_id" readonly="1" optional="hide"/>
+				<field name="equipment_id" readonly="1" />
 				<field name="date" widget="remaining_days"/>
 				<field name="marca"/>
 				<field name="modelo"/>
@@ -51,8 +51,10 @@
 				<field name="mil_orig"/>
 				<field name="mil_act"/>
 				<field name="presion"/>
+				<field name="position" optional="hide"/>
 				<field name="user_id" readonly="1"/>
 				<field name="company_id" optional="hide"/>
+				<field name="revision_frequency" optional="hide"/>
 			</tree>
 		</field>    
     </record>
