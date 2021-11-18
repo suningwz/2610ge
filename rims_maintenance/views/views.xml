@@ -56,6 +56,18 @@
 			</tree>
 		</field>    
     </record>
+
+	<record id="action_maintenance_rims" model="ir.actions.act_window">
+		<field name="name">Control de Llantas</field>
+		<field name="res_model">maintenance.rims</field>
+		<field name="view_mode">list,form</field>
+	</record>
+	<menuitem
+		id="menu_maintenance_rims"
+		name="Control de Llantas"
+		parent="maintenance.menu_maintenance_teams"
+		action="action_maintenance_rims"
+		/>
     
 	<record id="hr_equipment_view_form_inherit" model="ir.ui.view">
 		<field name="name">equipment.form.inherit</field>
