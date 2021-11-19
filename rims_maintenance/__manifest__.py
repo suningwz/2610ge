@@ -21,6 +21,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',
+        'data/email_templates.xml',
+        'data/expiration_alerts_cron.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

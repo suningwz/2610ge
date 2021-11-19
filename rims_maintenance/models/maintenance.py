@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import date, timedelta
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 
 class MaintenenceRims(models.Model):
     _name = 'maintenance.rims'
+    _inherit = ['mail.thread']
 
     date = fields.Date('Fecha de Revisión', tracking=True)
     equipment_id = fields.Many2one('maintenance.equipment',string='Equipo', tracking=True)
@@ -23,6 +25,27 @@ class MaintenenceRims(models.Model):
     current_state = fields.Selection([('n', 'Nueva'),('r', 'Renovada')], string='Estado actual', tracking=True)
     company_id = fields.Many2one('res.company', string='Compañia', default=lambda self: self.env.company)
     position = fields.Integer(string="Posición", tracking=True)
+
+    @api.model
+    def find_and_execute_alerts(self):
+        records = self.env['maintenance.rims'].search()
+        for record in records:
+            if record.date == date.today() - timedelta(days=1):
+                # send Today Alert
+                record.action_send_email()
+                msg = """ Fecha de revisión próxima: Mañana """
+                record.message_post(body=msg)
+
+    def action_send_email_alert_rims(self):
+        self.ensure_one()
+        template_id = self.env.ref("rims_maintenance.email_alert_template")
+        ctx = {
+            'email_to': self.user_id.email,
+            'email_from': self.env.user.company_id.email,
+            'send_email': True,
+            'attendee': self.user_id.name
+        }
+        template_id.with_context(ctx).send_mail(self.id, force_send=True, raise_exeption=False)
 
     
 
