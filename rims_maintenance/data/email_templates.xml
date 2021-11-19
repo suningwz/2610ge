@@ -2,7 +2,7 @@
 <odoo>
     <record id="email_alert_template" model="mail.template">
         <field name="name">EMAIL TEMPLATE NAME</field>
-        <field name="model_id"ref="rims_maintenance.model_maintenance_rims">
+        <field name="model_id" ref="rims_maintenance.model_maintenance_rims">
         <field name="auto_delete" eval="True"/>
         <field name="email_from">${object.company_id.email}</field>
         <field name="email_to">${object.user_id.email}</field>
